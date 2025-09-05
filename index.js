@@ -1,8 +1,15 @@
 const taskForm = document.getElementById('task-form');
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list');
+const themeToggle = document.getElementById('theme-toggle');
 
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+let currentTheme = localStorage.getItem('theme') || 'light';
+
+function applyTheme() {
+    document.body.className = currentTheme;
+    themeToggle.textContent = currentTheme === 'light' ? 'Switch to Dark Theme' : 'Switch to Light Theme';
+}
 
 function renderTasks() {
     taskList.innerHTML = '';
@@ -61,5 +68,12 @@ function saveTasks() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
+themeToggle.addEventListener('click', () => {
+    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+    localStorage.setItem('theme', currentTheme);
+    applyTheme();
+});
+
 taskForm.addEventListener('submit', addTask);
+applyTheme();
 renderTasks();
